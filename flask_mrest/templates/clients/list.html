@@ -1,0 +1,34 @@
+    <style>
+    thead {color:green;}
+    tbody {color:black;}
+    tfoot {color:red;}
+
+    table, th, td {
+        border: 1px solid black;
+    }
+    tr:nth-child(even) {background: #CCC}
+    tr:nth-child(odd) {background: #FFF}
+    </style>
+
+    <table style="margin: 0 auto">
+      <thead>
+        <tr>
+          <th>Contacto ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Correo</th>
+          <th>Telefono</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for client in tlist %}
+        <tr class="state-complete">
+          <td><a href="{{ url_for('viewClient', cid=client['casillero']) }}">{{ client['casillero'] }}</a></td>
+          <td>{{ client['contacto_nombre_1'].decode('utf-8') }}</td>
+          <td>{{ client['contacto_apellido_1'].decode('utf-8') }}</td>
+          <td>{{ client['correo'] }}</td>
+          <td>{{ client['telefonocel'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>

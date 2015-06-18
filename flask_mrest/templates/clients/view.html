@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+  <h1>{{ client['casillero'] }} - {{ client['contacto_nombre_1'] }} {{ client['contacto_apellido_1'] }} </h1>
+
+
+  <div>
+    {% include 'clients/client-details.html' %}
+  </div>
+
+  <h2>Invoices</h2>
+
+  <div class="pagination-centered">
+    {% include 'invoices/list.html' %}
+  </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+    <style>
+    thead {color:green;}
+    tbody {color:black;}
+    tfoot {color:red;}
+
+    table, th, td {
+        border: 1px solid black;
+    }
+    tr:nth-child(even) {background: #CCC}
+    tr:nth-child(odd) {background: #FFF}
+    </style>
+
+    <table style="margin: 0 auto">
+      <thead>
+        <tr>
+          <th>Invoice No.</th>
+          <th>Guia</th>
+          <th>Referencia</th>
+          <th>Remitente</th>
+          <th>Peso - KG</th>
+          <th>Peso - LB</th>
+          <th>Total</th>
+          <th>Paid</th>
+          <th>Aqui en Panama</th>
+          <th>Piezas</th>
+          <th>Fecha</th>
+          <th>Fecha Proceso</th>
+          <th>Hora Proceso</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for inv in ilist %}
+        <tr>
+          <td>{{ inv['invoice_num'] }}</td>
+          <td>{{ inv['guia'] }}</td>
+          <td>{{ inv['referencia'] }}</td>
+          <td>{{ inv['remitente'] }}</td>
+          <td>{{ inv['peso'] }}</td>
+          <td>{{ inv['lb'] }}</td>
+          <td>${{ inv['subtotal'] }}</td>
+          <td>{{ inv['paid'] }}</td>
+          <td>{{ inv['in_panama'] }}</td>
+          <td>{{ inv['piezas'] }}</td>
+          <td>{{ inv['fecha'] }}</td>
+          <td>{{ inv['fecha_proceso'] }}</td>
+          <td>{{ inv['hora_proceso'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>

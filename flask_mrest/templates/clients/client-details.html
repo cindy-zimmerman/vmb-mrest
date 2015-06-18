@@ -1,0 +1,75 @@
+    <style>
+    thead {color:green;}
+    tbody {color:black;}
+    tfoot {color:red;}
+
+    table, th, td {
+        border: 1px solid orange;
+    }
+    tr:nth-child(even) {background: #CCC}
+    tr:nth-child(odd) {background: #FFF}
+    </style>
+
+    <table style="margin: 0 auto">
+      <thead>
+
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Contacto ID</b></td>
+          <td>{{ client['casillero'] }}</td>
+        </tr>
+        <tr>
+          <td><b>Nombre</b></td>
+          <td>{{ client['contacto_nombre_1'] }}</td>
+        </tr>
+        <tr>
+          <td><b>Nombre Segundo</b></td>
+          <td>{{ client['contacto_nombre_2'] }}</td>
+        </tr>
+        <tr>
+          <td><b>Apellido</b></td>
+          <td>{{ client['contacto_apellido_1'] }}</td>
+        </tr>
+        <tr>
+          <td><b>Apellido Segundo</b></td>
+          <td>{{ client['contacto_apellido_2'] }}</td>
+        </tr>
+        <tr>
+          <td><b>Telefono</b></td>
+          <td>{{ client['telefonofij'] }}</td>
+        </tr>
+        <tr>
+          <td><b>Telefono Cell</b></td>
+          <td>{{ client['telefonocel'] }}</td>
+        </tr>
+        <tr>
+          <td><b>Correo</b></td>
+          <td>{{ client['correo'] }}</td>
+        </tr>
+        <tr>
+          <td><b>direccion_calle</b></td>
+          <td>{{ client['direccion_calle'] }}</td>
+        </tr>
+        <tr>
+          <td><b>direccion_torre</b></td>
+          <td>{{ client['direccion_torre'] }}</td>
+        </tr>
+        <tr>
+          <td><b>direccion_apt</b></td>
+          <td>{{ client['direccion_apt'] }}</td>
+        </tr>
+        <tr>
+          <td><b>direccion_area</b></td>
+          <td>{{ client['direccion_area'] }}</td>
+        </tr>
+        <tr>
+          <td><b>Ciudad</b></td>
+          <td>{{ client['ciudad'] }}</td>
+        </tr>
+        <tr>
+          <td><b>Tarifa</b></td>
+          <td>{{ client['tarifa'] }}</td>
+        </tr>
+      </tbody>
+    </table>

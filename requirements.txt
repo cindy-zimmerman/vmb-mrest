@@ -1,0 +1,11 @@
+bson
+ecdsa
+graypy
+json
+sqlalchemy
+jsonschema
+alchemyjsonschema
+
+Flask
+
+mrest-client

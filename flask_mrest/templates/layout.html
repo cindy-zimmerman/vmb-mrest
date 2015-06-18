@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-base.css') }}">-->
+    <!--<script type="text/javascript" src="{{ url_for('static', filename='foundation/js/foundation.min.js') }}"></script>-->
+    <!--<title>{% block title %}{% endblock %} - My Webpage</title>-->
+    <!--<img src="static/img2/vmbLogo.jpg" alt="vmb" height="200" width="250">-->
+    <title>Virtual Mall Box </title>
+    <h1 style="color:red">Virtual Mall Box</h1>
+
+    {% endblock %}
+  </head>
+  <body>
+    <div id="content"  align="center">
+        {% block content %}
+        <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-base.css') }}">-->
+        {% endblock %}
+    </div>
+    <div id="footer">
+      {% block footer %}
+      &copy; Copyright 2015 by <a href="http://domain.invalid/">you</a>.
+      {% endblock %}
+    </div>
+  </body>
+</html>

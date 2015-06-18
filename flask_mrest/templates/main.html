@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% from 'widgets.html' import paginator %}
+
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+
+  <h1>Lista de Clientes</h1>
+  <style>
+      .pagination-centered {
+          text-align: center; }
+          .pagination-centered ul.pagination li {
+            float: none;
+            display: inline-block; }
+  </style>
+  <div class="pagination-centered">
+    {{ paginator(tpage, tnumpages, pagination) }}
+    {% include 'clients/list.html' %}
+    {{ paginator(tpage, tnumpages, pagination) }}
+  </div>
+
+{% endblock %}
+
+
