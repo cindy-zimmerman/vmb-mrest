@@ -7,16 +7,18 @@
   </style>
 {% endblock %}
 {% block content %}
-  <h1>{{ client['casillero'] }} - {{ client['contacto_nombre_1'] }} {{ client['contacto_apellido_1'] }} </h1>
+    <h1>{{ client['casillero'] }} - {{ client['contacto_nombre_1'] }} {{ client['contacto_apellido_1'] }} </h1>
 
-
-  <div>
+    <a href="{{ url_for('editClient', cid=client['casillero']) }}">
+       <button>Modificar Contacto</button>
+    </a>
+    <div>
     {% include 'clients/client-details.html' %}
-  </div>
+    </div>
 
-  <h2>Invoices</h2>
+    <h2>Invoices</h2>
 
-  <div class="pagination-centered">
+    <div class="pagination-centered">
     {% include 'invoices/list.html' %}
-  </div>
+    </div>
 {% endblock %}

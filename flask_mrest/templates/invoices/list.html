@@ -1,3 +1,4 @@
+{% from "widgets.html" import form_entry, form_submit_button %}
     <style>
     thead {color:green;}
     tbody {color:black;}
@@ -13,6 +14,8 @@
     <table style="margin: 0 auto">
       <thead>
         <tr>
+          <th></th>
+          <th></th>
           <th>Invoice No.</th>
           <th>Guia</th>
           <th>Referencia</th>
@@ -20,17 +23,31 @@
           <th>Peso - KG</th>
           <th>Peso - LB</th>
           <th>Total</th>
-          <th>Paid</th>
+          <th>Pagado</th>
           <th>Aqui en Panama</th>
           <th>Piezas</th>
           <th>Fecha</th>
           <th>Fecha Proceso</th>
           <th>Hora Proceso</th>
+          <th>amt_paid</th>
         </tr>
       </thead>
       <tbody>
+      <form action="{{ url_for('viewClient', cid=client['casillero']) }}" method="POST">
         {% for inv in ilist %}
         <tr>
+          <td>
+          {% if inv['paid'] == 'No' %}
+            {{ form_entry('', 'amt', '0.00') }}
+          {% endif %}
+          </td>
+          <td>
+          {% if inv['paid'] == 'No' %}
+            {{ form_entry('', 'subtotal', inv['subtotal'], type='hidden') }}
+            {{ form_entry('', 'update', inv['guia'], type='hidden') }}
+            {{ form_submit_button('paga') }}
+          {% endif %}
+          </td>
           <td>{{ inv['invoice_num'] }}</td>
           <td>{{ inv['guia'] }}</td>
           <td>{{ inv['referencia'] }}</td>
@@ -44,7 +61,10 @@
           <td>{{ inv['fecha'] }}</td>
           <td>{{ inv['fecha_proceso'] }}</td>
           <td>{{ inv['hora_proceso'] }}</td>
+          <td>{{ inv['amt_paid'] }}</td>
         </tr>
         {% endfor %}
+
+      </form>
       </tbody>
     </table>

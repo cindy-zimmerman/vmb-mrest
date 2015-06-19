@@ -31,7 +31,7 @@
 {% endmacro %}
 
 
-{% macro form_entry(label, name, value, readonly=False, hint='', type='text') %}
+{% macro form_entry(label, name, value, readonly=False, disabled=False, hint='', type='text') %}
 <div class="row">
   <div class="large-8 columns">
     <div class="row">
@@ -40,7 +40,8 @@
       </div>
       <div class="large-8 columns">
         <input type="{{ type }}" name="{{ name }}" id="{{ name }}" value="{{ value }}"
-               {% if readonly %}readonly disabled{% endif %}
+               {% if readonly %}readonly {% endif %}
+               {% if disabled %}disabled {% endif %}
                {% if type == 'password' %}autocomplete="off"{% endif %}
                title="{{ hint }}" />
       </div>

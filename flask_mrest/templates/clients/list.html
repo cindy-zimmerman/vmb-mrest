@@ -26,7 +26,8 @@
           <td><a href="{{ url_for('viewClient', cid=client['casillero']) }}">{{ client['casillero'] }}</a></td>
           <td>{{ client['contacto_nombre_1'].decode('utf-8') }}</td>
           <td>{{ client['contacto_apellido_1'].decode('utf-8') }}</td>
-          <td>{{ client['correo'] }}</td>
+          <td><a href="mailto:{{ client['correo'] }}?subject=Notificacion VMB">
+                {{ client['correo'] }}</a></td>
           <td>{{ client['telefonocel'] }}</td>
         </tr>
         {% endfor %}

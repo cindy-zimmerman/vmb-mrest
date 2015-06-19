@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% from "widgets.html" import form_entry, form_submit_button %}
+
+{% block content %}
+  <h1><a href="{{ url_for('viewClient', cid=client['casillero']) }}">Modificar Contacto -  {{ client['casillero'] }}</a></h1>
+  {% if actItems['FT'] %}
+      <form action="{{ url_for('editClient', cid=client['casillero']) }}" method="POST">
+
+        {{ form_entry('Nombre', 'contacto_nombre_1', client['contacto_nombre_1']) }}
+        {{ form_entry('Nombre Segundo', 'contacto_nombre_2', client['contacto_nombre_2']) }}
+        {{ form_entry('Apellido', 'contacto_apellido_1', client['contacto_apellido_1']) }}
+        {{ form_entry('Apellido Segundo', 'contacto_apellido_2', client['contacto_apellido_2']) }}
+
+          <div {% if actItems['telefonofij'] %} style="color:red" {% endif %}>
+              {{ form_entry('Telefono', 'telefonofij', client['telefonofij']) }}
+          </div>
+          <div {% if actItems['telefonocel'] %} style="color:red" {% endif %}>
+              {{ form_entry('Telefono Cell', 'telefonocel', client['telefonocel']) }}
+          </div>
+
+        {{ form_entry('Correo', 'correo', client['correo']) }}
+        {{ form_entry('Direccion Calle', 'direccion_calle', client['direccion_calle']) }}
+        {{ form_entry('Direccion Torre', 'direccion_torre', client['direccion_torre']) }}
+        {{ form_entry('Direccion Apt', 'direccion_apt', client['direccion_apt']) }}
+        {{ form_entry('Direccion Area', 'direccion_area', client['direccion_area']) }}
+        {{ form_entry('Ciudad', 'ciudad', client['ciudad']) }}
+          <div {% if actItems['tarifa'] %} style="color:red" {% endif %}>
+              {{ form_entry('Tarifa', 'tarifa', client['tarifa']) }}
+          </div>
+        {{ form_entry('', 'update', 0, type='hidden') }}
+
+
+        <br>
+        {{ form_submit_button('Revision Cambios') }}
+      </form>
+  {% else %}
+      <form action="{{ url_for('editClient', cid=client['casillero']) }}" method="POST">
+
+        {{ form_entry('Nombre', 'contacto_nombre_1', client['contacto_nombre_1'], readonly=True) }}
+        {{ form_entry('Nombre Segundo', 'contacto_nombre_2', client['contacto_nombre_2'], readonly=True) }}
+        {{ form_entry('Apellido', 'contacto_apellido_1', client['contacto_apellido_1'], readonly=True) }}
+        {{ form_entry('Apellido Segundo', 'contacto_apellido_2', client['contacto_apellido_2'], readonly=True) }}
+        {{ form_entry('Telefono', 'telefonofij', client['telefonofij'], readonly=True) }}
+        {{ form_entry('Telefono Cell', 'telefonocel', client['telefonocel'], readonly=True) }}
+        {{ form_entry('Correo', 'correo', client['correo'], readonly=True) }}
+        {{ form_entry('Direccion Calle', 'direccion_calle', client['direccion_calle'], readonly=True) }}
+        {{ form_entry('Direccion Torre', 'direccion_torre', client['direccion_torre'], readonly=True) }}
+        {{ form_entry('Direccion Apt', 'direccion_apt', client['direccion_apt'], readonly=True) }}
+        {{ form_entry('Direccion Area', 'direccion_area', client['direccion_area'], readonly=True) }}
+        {{ form_entry('Ciudad', 'ciudad', client['ciudad'], readonly=True) }}
+        {{ form_entry('Tarifa', 'tarifa', client['tarifa'], readonly=True) }}
+        {{ form_entry('', 'update', 1, type='hidden') }}
+
+        <br>
+        {{ form_submit_button('Actualizar Contacto') }}
+      </form>
+  {% endif %}
+
+{% endblock %}

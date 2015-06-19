@@ -6,12 +6,16 @@ import sqlalchemy.orm as orm
 import time
 
 from bson import json_util
-from flask import Flask, request, make_response, jsonify, g
+from flask import Flask, request, make_response, jsonify, g, session
 from errorhandlers import unauthorized_page, forbidden_page, page_not_found, ratelimit_exceeded, \
     server_error, generic_code_error
 from logger import setupLogHandlers
 # from models import BaseModel
 # from mrest_client.auth import add_mrest_headers, construct_auth_data
+# from flask.ext.kvsession import KVSessionExtension
+
+from vmb_db.conf import getModule
+configVMB = getModule('config')
 
 from actions import homepage, client
 
@@ -66,10 +70,14 @@ class Application(Flask):
         self.__routes()
         self.logger.info("mrest app created")
 
+        self.session_cookie_name = 'vmb-session'
+        self.secret_key = configVMB.SECRET_KEY
+        self.config['SESSION_TYPE'] = 'filesystem'
 
 
         self.debug = True
         self.run()
+        session.init_app(self)
 
     def __augment_request(self):
         g.start = time.time()
@@ -101,8 +109,10 @@ class Application(Flask):
         self.url_map.strict_slashes = False
         
         self.route('/', methods=['GET', 'POST'])(homepage.go)
-        
-        self.route('/client/view/<cid>', methods=['GET'])(client.viewClient)
+
+
+        self.route('/clients/view/<cid>', methods=['GET', 'POST'])(client.viewClient)
+        self.route('/clients/edit/<cid>', methods=['GET', 'POST'])(client.editClient)
 
         self.__model_routes()
 

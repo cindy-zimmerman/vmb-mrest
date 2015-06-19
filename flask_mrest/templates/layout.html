@@ -7,9 +7,20 @@
     <!--<title>{% block title %}{% endblock %} - My Webpage</title>-->
     <!--<img src="static/img2/vmbLogo.jpg" alt="vmb" height="200" width="250">-->
     <title>Virtual Mall Box </title>
-    <h1 style="color:red">Virtual Mall Box</h1>
+    <h1 style="color:red"><a href="{{ url_for('go') }}" style="color:red">Virtual Mall Box</a></h1>
 
     {% endblock %}
+
+    <div id="flashed-messages">
+      {# TODO: Display these using an appropriate style based on their "category" (e.g., error, success, etc);
+         TODO: use the 'with_categories' parameter of 'get_flashed_messages' for that. #}
+      {% for message in get_flashed_messages() %}
+        <div data-alert class="alert-box info radius">
+          {{ message }}
+          <a href="#" class="close">&times;</a>
+        </div>
+      {% endfor %}
+    </div>
   </head>
   <body>
     <div id="content"  align="center">
@@ -19,7 +30,9 @@
     </div>
     <div id="footer">
       {% block footer %}
-      &copy; Copyright 2015 by <a href="http://domain.invalid/">you</a>.
+      &copy; Copyright 2015
+        Have a bug to report?<a href="mailto:vmallboxpty@gmail.com?subject=VMBBugs
+&body=URL of Page: Problem:">Email Me</a>.
       {% endblock %}
     </div>
   </body>
