@@ -32,7 +32,7 @@ def viewInvoice():
                 flash(uploadedMes)
 
             else:
-				flash('There was a problem with uploading the file')
+                flash('There was a problem with uploading the file')
     client = {'casillero' : 0}
     sort = 'fecha_proceso DESC, hora_proceso DESC'
     invoices = get_invoice_list(where=None, sort=sort, limit=INVOICES_PER_PAGE, skip=(page - 1) * INVOICES_PER_PAGE)

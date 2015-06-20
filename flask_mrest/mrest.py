@@ -8,7 +8,7 @@ import time
 from bson import json_util
 from flask import Flask, request, make_response, jsonify, g, session
 from flask.ext.login import LoginManager, current_user
-from flask_mrest import SupportUser
+import SupportUser
 from errorhandlers import unauthorized_page, forbidden_page, page_not_found, ratelimit_exceeded, \
     server_error, generic_code_error
 from logger import setupLogHandlers
@@ -82,7 +82,7 @@ class Application(Flask):
         self.__initLoginManager()
 
         self.debug = True
-        self.run()
+        self.run(host='0.0.0.0')
         session.init_app(self)
 
     def __augment_request(self):
