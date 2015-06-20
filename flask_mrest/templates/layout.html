@@ -2,12 +2,16 @@
 <html>
   <head>
     {% block head %}
-    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/admin-base.css') }}">-->
-    <!--<script type="text/javascript" src="{{ url_for('static', filename='foundation/js/foundation.min.js') }}"></script>-->
-    <!--<title>{% block title %}{% endblock %} - My Webpage</title>-->
-    <!--<img src="static/img2/vmbLogo.jpg" alt="vmb" height="200" width="250">-->
     <title>Virtual Mall Box </title>
-    <h1 style="color:red"><a href="{{ url_for('go') }}" style="color:red">Virtual Mall Box</a></h1>
+
+    <h1 style="color:red"><a href="{{ url_for('go') }}" style="color:red">
+       <button style="color:red">Virtual Mall Box</button>
+    </a></h1>
+
+
+    <a href="{{ url_for('viewInvoice') }}">
+       <button>Invoices</button>
+    </a>
 
     {% endblock %}
 

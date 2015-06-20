@@ -14,8 +14,10 @@
     <table style="margin: 0 auto">
       <thead>
         <tr>
-          <th></th>
-          <th></th>
+          {% if client['casillero'] != 0 %}
+            <th></th>
+            <th></th>
+          {% endif %}
           <th>Invoice No.</th>
           <th>Guia</th>
           <th>Referencia</th>
@@ -30,24 +32,29 @@
           <th>Fecha Proceso</th>
           <th>Hora Proceso</th>
           <th>amt_paid</th>
+          {% if client['casillero'] == 0 %}
+            <th>Contacto</th>
+          {% endif %}
         </tr>
       </thead>
       <tbody>
       <form action="{{ url_for('viewClient', cid=client['casillero']) }}" method="POST">
         {% for inv in ilist %}
         <tr>
-          <td>
-          {% if inv['paid'] == 'No' %}
-            {{ form_entry('', 'amt', '0.00') }}
+          {% if client['casillero'] != 0 %}
+              <td>
+              {% if inv['paid'] == 'No'  and client['casillero'] != 0 %}
+                {{ form_entry('', 'amt', '0.00') }}
+              {% endif %}
+              </td>
+              <td>
+              {% if inv['paid'] == 'No'  and client['casillero'] != 0 %}
+                {{ form_entry('', 'subtotal', inv['subtotal'], type='hidden') }}
+                {{ form_entry('', 'update', inv['guia'], type='hidden') }}
+                {{ form_submit_button('paga') }}
+              {% endif %}
+              </td>
           {% endif %}
-          </td>
-          <td>
-          {% if inv['paid'] == 'No' %}
-            {{ form_entry('', 'subtotal', inv['subtotal'], type='hidden') }}
-            {{ form_entry('', 'update', inv['guia'], type='hidden') }}
-            {{ form_submit_button('paga') }}
-          {% endif %}
-          </td>
           <td>{{ inv['invoice_num'] }}</td>
           <td>{{ inv['guia'] }}</td>
           <td>{{ inv['referencia'] }}</td>
@@ -62,6 +69,9 @@
           <td>{{ inv['fecha_proceso'] }}</td>
           <td>{{ inv['hora_proceso'] }}</td>
           <td>{{ inv['amt_paid'] }}</td>
+          {% if client['casillero'] == 0 %}
+              <td><a href="{{ url_for('viewClient', cid=inv['casillero']) }}">PTY{{ inv['casillero'] }}</a></td>
+          {% endif %}
         </tr>
         {% endfor %}
 

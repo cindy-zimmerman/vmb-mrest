@@ -1,6 +1,7 @@
 import math
 
 from flask import render_template, request
+from flask.ext.login import login_required
 from vmb_db.conn import get_one
 from vmb_db.contact_info import get_contact_list, CLIENTS_PER_PAGE, iter_pages
 
@@ -13,7 +14,7 @@ from vmb_db.contact_info import get_contact_list, CLIENTS_PER_PAGE, iter_pages
 
 # c = Context()
 
-# @login_required
+@login_required
 def go():
 
     try:

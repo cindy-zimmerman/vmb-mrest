@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Virtual Mall Box </title>
+
+    <div id="flashed-messages">
+      {# TODO: Display these using an appropriate style based on their "category" (e.g., error, success, etc);
+         TODO: use the 'with_categories' parameter of 'get_flashed_messages' for that. #}
+      {% for message in get_flashed_messages() %}
+        <div data-alert class="alert-box info radius">
+          {{ message }}
+          <a href="#" class="close">&times;</a>
+        </div>
+      {% endfor %}
+    </div>
+  </head>
+  <body>
+    <div id="content"  align="center">
+
+
+
+     <form id="login-form" action="/login" method="POST">
+        <div class="form-group">
+          <label for="username-input" class="control-label">Username</label>
+          <div>
+            <input type="text" class="form-control" id="username-input" name="username"
+                   placeholder="Your username" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password-input" class="control-label">Password</label>
+          <div>
+            <input type="password" class="form-control" id="password-input" name="password"
+                   placeholder="Password" />
+          </div>
+        </div>
+        {% if force_2fa %}
+        <div class="form-group">
+          <label for="tfa-input" class="control-label">2FA code</label>
+          <div>
+            <input type="text" class="form-control" id="tfa-input" name="tfa"
+                   placeholder="Leave this empty if you do not have it yet" />
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="form-buttons">
+          <button type="submit" class="button large radius">Log in</button>
+        </div>
+      </form>
+
+
+    </div>
+    <div id="footer">
+      &copy; Copyright 2015
+        Have a bug to report?<a href="mailto:vmallboxpty@gmail.com?subject=VMBBugs
+&body=URL of Page: Problem:">Email Me</a>.
+    </div>
+  </body>
+</html>

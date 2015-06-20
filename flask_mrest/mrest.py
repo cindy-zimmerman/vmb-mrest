@@ -7,6 +7,8 @@ import time
 
 from bson import json_util
 from flask import Flask, request, make_response, jsonify, g, session
+from flask.ext.login import LoginManager, current_user
+from flask_mrest import SupportUser
 from errorhandlers import unauthorized_page, forbidden_page, page_not_found, ratelimit_exceeded, \
     server_error, generic_code_error
 from logger import setupLogHandlers
@@ -14,10 +16,11 @@ from logger import setupLogHandlers
 # from mrest_client.auth import add_mrest_headers, construct_auth_data
 # from flask.ext.kvsession import KVSessionExtension
 
+from db import loadUserByID, loadUserByUsername
 from vmb_db.conf import getModule
 configVMB = getModule('config')
 
-from actions import homepage, client
+from actions import authentication, homepage, client, invoice
 
 
 class Application(Flask):
@@ -74,6 +77,9 @@ class Application(Flask):
         self.secret_key = configVMB.SECRET_KEY
         self.config['SESSION_TYPE'] = 'filesystem'
 
+        self.config['UPLOAD_FOLDER'] = configVMB.UPLOAD_FOLDER
+
+        self.__initLoginManager()
 
         self.debug = True
         self.run()
@@ -97,6 +103,15 @@ class Application(Flask):
                          response.content_type, g.start))
         return response
 
+
+    def __initLoginManager(self):
+        login_manager = LoginManager()
+        login_manager.anonymous_user = SupportUser.Anonymous
+        login_manager.login_view = '/login'
+        login_manager.login_message = ''
+        login_manager.user_loader(loadUserByID)
+        login_manager.init_app(self)
+
     def __routes(self):
         self.errorhandler(401)(unauthorized_page)
         self.errorhandler(403)(forbidden_page)
@@ -107,12 +122,18 @@ class Application(Flask):
         self.errorhandler(Exception)(generic_code_error)
 
         self.url_map.strict_slashes = False
-        
+
+
+        self.route('/login', methods=['GET', 'POST'])(authentication.login)
+
         self.route('/', methods=['GET', 'POST'])(homepage.go)
 
 
         self.route('/clients/view/<cid>', methods=['GET', 'POST'])(client.viewClient)
         self.route('/clients/edit/<cid>', methods=['GET', 'POST'])(client.editClient)
+        # self.route('/clients/edit/<cid>', methods=['POST'])(client.editClient)
+
+        self.route('/invoices/view', methods=['GET', 'POST'])(invoice.viewInvoice)
 
         self.__model_routes()
 

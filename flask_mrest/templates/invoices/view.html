@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% from 'widgets.html' import paginator %}
+
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+
+    <h1>Upload Recent Invoices</h1>
+    <form action="{{ url_for('viewInvoice') }}" method=post enctype=multipart/form-data>
+      <p><input type=file name=file>
+         <input type=submit value=Upload>
+    </form>
+
+    <h1>Invoices</h1>
+      <style>
+          .pagination-centered {
+              text-align: center; }
+              .pagination-centered ul.pagination li {
+                float: none;
+                display: inline-block; }
+      </style>
+
+    <div class="pagination-centered">
+        {{ paginator(tpage, tnumpages, pagination) }}
+        {% include 'invoices/list.html' %}
+        {{ paginator(tpage, tnumpages, pagination) }}
+    </div>
+{% endblock %}
