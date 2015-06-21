@@ -1,9 +1,6 @@
-import bson
-from flask import current_app
-
 from vmb_db.user_info import get_user_by_id, get_user_by_name
-
 from SupportUser import User
+
 
 def loadUserByID(uid):
     user = get_user_by_id(uid)

@@ -34,14 +34,16 @@
           <th>amt_paid</th>
           {% if client['casillero'] == 0 %}
             <th>Contacto</th>
+            <th></th>
           {% endif %}
         </tr>
       </thead>
       <tbody>
-      <form action="{{ url_for('viewClient', cid=client['casillero']) }}" method="POST">
+
         {% for inv in ilist %}
         <tr>
           {% if client['casillero'] != 0 %}
+            <form action="{{ url_for('viewClient', cid=client['casillero']) }}" method="POST">
               <td>
               {% if inv['paid'] == 'No'  and client['casillero'] != 0 %}
                 {{ form_entry('', 'amt', '0.00') }}
@@ -54,6 +56,7 @@
                 {{ form_submit_button('paga') }}
               {% endif %}
               </td>
+            </form>
           {% endif %}
           <td>{{ inv['invoice_num'] }}</td>
           <td>{{ inv['guia'] }}</td>
@@ -68,13 +71,22 @@
           <td>{{ inv['fecha'] }}</td>
           <td>{{ inv['fecha_proceso'] }}</td>
           <td>{{ inv['hora_proceso'] }}</td>
-          <td>{{ inv['amt_paid'] }}</td>
+          <td>${{ inv['amt_paid'] }}</td>
           {% if client['casillero'] == 0 %}
               <td><a href="{{ url_for('viewClient', cid=inv['casillero']) }}">PTY{{ inv['casillero'] }}</a></td>
+
+              <td>
+              {% if inv['in_panama'] == 'No' %}
+                  <form action="{{ url_for('packageArrived') }}" method="POST">
+                        {{ form_entry('', 'update', inv['guia'], type='hidden') }}
+                        {{ form_submit_button('Entregado') }}
+                  </form>
+              {% endif %}
+              </td>
           {% endif %}
         </tr>
         {% endfor %}
 
-      </form>
+
       </tbody>
     </table>

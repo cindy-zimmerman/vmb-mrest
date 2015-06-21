@@ -134,6 +134,8 @@ class Application(Flask):
         # self.route('/clients/edit/<cid>', methods=['POST'])(client.editClient)
 
         self.route('/invoices/view', methods=['GET', 'POST'])(invoice.viewInvoice)
+        self.route('/invoices/', methods=['POST'])(invoice.packageArrived)
+
 
         self.__model_routes()
 
