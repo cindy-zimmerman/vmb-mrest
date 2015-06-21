@@ -4,7 +4,7 @@ import math
 from vmb_db.conn import get_one
 
 from flask import request, redirect, url_for, flash, current_app, abort, render_template
-from flask.ext.login import login_required
+from flask.ext.login import login_required, current_user
 from werkzeug import secure_filename
 
 from vmb_db.contact_info import get_contact, get_contact_by_casillero, set_contact_by_casillero, iter_pages
@@ -30,9 +30,9 @@ def viewInvoice():
             if uploaded > 0:
                 uploadedMes = 'The file was uploaded. %s rows were processed' % (uploaded)
                 flash(uploadedMes)
-
             else:
                 flash('There was a problem with uploading the file')
+
     client = {'casillero' : 0}
     sort = 'fecha_proceso DESC, hora_proceso DESC'
     invoices = get_invoice_list(where=None, sort=sort, limit=INVOICES_PER_PAGE, skip=(page - 1) * INVOICES_PER_PAGE)

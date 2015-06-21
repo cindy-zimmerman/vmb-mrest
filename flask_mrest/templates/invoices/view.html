@@ -8,13 +8,13 @@
   </style>
 {% endblock %}
 {% block content %}
-
-    <h1>Upload Recent Invoices</h1>
-    <form action="{{ url_for('viewInvoice') }}" method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
-
+    {% if current_user.upload_inv != 0 %}
+        <h1>Upload Recent Invoices</h1>
+        <form action="{{ url_for('viewInvoice') }}" method=post enctype=multipart/form-data>
+          <p><input type=file name=file>
+             <input type=submit value=Upload>
+        </form>
+    {% endif %}
     <h1>Invoices</h1>
       <style>
           .pagination-centered {
