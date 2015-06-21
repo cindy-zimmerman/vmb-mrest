@@ -1,11 +1,9 @@
 from flask import request, flash, redirect, render_template, url_for, current_app, session
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from flask.ext.login import UserMixin
 from flask.ext.bcrypt import Bcrypt
 
 from vmb_db.user_info import get_user_by_name
 
-from SupportUser import User
 from db import loadUserByUsername, loadUser
 
 def login():

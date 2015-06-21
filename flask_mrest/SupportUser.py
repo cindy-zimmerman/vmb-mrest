@@ -15,6 +15,7 @@ class User(UserMixin):
         self.id = uid
         self.username = username
         self.upload_inv = upload_inv
+
     @classmethod
     def get(cls,id):
         return cls.user_database.get(id)

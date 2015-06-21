@@ -1,9 +1,10 @@
 __author__ = 'cz'
 
 from flask import request, redirect, url_for, flash, current_app, abort, render_template
-from flask.ext.login import login_required
+from flask.ext.login import login_required, current_user
 from vmb_db.contact_info import get_contact, get_contact_by_casillero, set_contact_by_casillero, iter_pages
 from vmb_db.invoice_info import get_invoice_list_by_casillero, set_inv_by_guia, INVOICES_PER_PAGE
+from vmb_db.accounts import insert_account
 
 
 @login_required
@@ -29,18 +30,25 @@ def viewClient(cid):
 
 @login_required
 def editClient(cid):
-    client = get_contact_by_casillero(casillero=cid)
+    if cid == '0':
+        client = {'contacto_nombre_1': '', 'casillero': '0', 'contacto_nombre_2': '',
+                  'direccion_area': '', 'direccion_torre': '', 'direccion_calle': '',
+                  'telefonocel': '', 'correo': '', 'ciudad': 'Panama',
+                  'contacto_apellido_2': '', 'VMB_ACCOUNTS_id': 0, 'contacto_apellido_1': '', 'telefonofij': '',
+                  'tarifa': 0,
+                  'direccion_apt': ''}
+    else:
+        client = get_contact_by_casillero(casillero=cid)
+
     actItems = {'FT': True, 'telefonofij': False, 'telefonocel': False, 'tarifa': False}
 
     if not client:
         flash('User %s not found' % cid, 'error')
-        # return redirect(url_for('searchCustomers'))
         return redirect(url_for('/'))
 
     if request.method.lower() == 'post':
         actItems['FT'] = False
         client['contacto_nombre_1'] = request.form.get('contacto_nombre_1', '').strip()
-        print client['contacto_nombre_1']
         client['contacto_nombre_2'] = request.form.get('contacto_nombre_2', '').strip()
         client['contacto_apellido_1'] = request.form.get('contacto_apellido_1', '').strip()
         client['contacto_apellido_2'] = request.form.get('contacto_apellido_2', '').strip()
@@ -63,6 +71,13 @@ def editClient(cid):
 
 
         try:
+
+            if client['telefonofij'][:3] not in ('507', '506'):
+                client['telefonofij'] = '507%s' % (client['telefonofij'])
+
+            if client['telefonocel'][:3] not in ('507', '506'):
+                client['telefonocel'] = '507%s' % (client['telefonocel'])
+
             client['telefonofij'] = int(client['telefonofij'])
             client['telefonocel'] = int(client['telefonocel'])
         except:
@@ -79,8 +94,26 @@ def editClient(cid):
 
         update = request.form.get('update', '').strip()
         if int(update) > 0:
-            set_contact_by_casillero(newClient=client, casillero=cid)
-            #TODO store the old contact
+            if cid == '0':
+
+                ncid = insert_account(contacto_nombre_1=client['contacto_nombre_1'],
+                               contacto_nombre_2=client['contacto_nombre_2'],
+                               contacto_apellido_1=client['contacto_apellido_1'],
+                               contacto_apellido_2=client['contacto_apellido_2'],
+                               telefonofij=client['telefonofij'],
+                               telefonocel=client['telefonocel'],
+                               correo=client['correo'],
+                               direccion_calle=client['direccion_calle'],
+                               direccion_torre=client['direccion_torre'],
+                               direccion_apt=client['direccion_apt'],
+                               direccion_area=client['direccion_area'],
+                               ciudad=client['ciudad'],
+                               tarifa=client['tarifa'])
+                where = 'VMB_ACCOUNTS_id = %s' % (ncid)
+                client = get_contact(where=where)
+                cid = client['casillero']
+            else:
+                set_contact_by_casillero(newClient=client, casillero=cid, updatedUser=current_user.username)
 
             return redirect(url_for('viewClient', cid=cid))
 
