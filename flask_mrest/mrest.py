@@ -82,8 +82,10 @@ class Application(Flask):
         self.__initLoginManager()
 
         self.debug = True
-        self.run(host='0.0.0.0')
-        session.init_app(self)
+        # self.run(host='0.0.0.0')
+        # session.init_app(self)
+        # gunicorn flask_mrest.mrest:gunicorn_app -b 0.0.0.0:8090
+
 
     def __augment_request(self):
         g.start = time.time()
@@ -184,7 +186,18 @@ class Application(Flask):
                 'schemas': self.json_schemas}
         return make_response(jsonify(info), 200)
 
+def getConfiguredApp():
+    config = getModule('config')
+    return Application(config)
 
-if __name__ == '__main__':
-    # app.run()
-    appy = Application(Flask)
+
+_gunicornApp = None
+
+def gunicorn_app(environ, start_response):
+    global _gunicornApp
+    if _gunicornApp is None:
+        _gunicornApp = getConfiguredApp()
+    return _gunicornApp(environ, start_response)
+
+# if __name__ == '__main__':
+    # appy = Application(Flask)
