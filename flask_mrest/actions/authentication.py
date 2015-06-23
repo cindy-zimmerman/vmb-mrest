@@ -4,7 +4,8 @@ from flask.ext.bcrypt import Bcrypt
 
 from vmb_db.user_info import get_user_by_name
 
-from db import loadUserByUsername, loadUser
+# from db import loadUserByUsername
+from .. import db
 
 def login():
     print current_user
@@ -26,7 +27,7 @@ def login():
     if userdb is None or not Bcrypt().check_password_hash(str(userdb['user_pwd']), str(password)):
         return render_template('login.html', invalidCredentials=True)
 
-    user = loadUserByUsername(userdb['user_name'])
+    user = db.loadUserByUsername(userdb['user_name'])
     if not login_user(user):
         flash('Invalid Info')
         return render_template('login.html')
